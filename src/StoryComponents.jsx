@@ -1,3 +1,5 @@
+import { TypewriterText } from "./TypewriterText";
+
 export function TitleScreen() {
   return (
     <div className="text-center">
@@ -14,10 +16,17 @@ export function TitleScreen() {
 }
 
 export function TextContent({ lines, visibleLines }) {
+  let cumulativeDelay = 0;
+
   return (
     <>
-      {lines.map((line, i) =>
-        line ? (
+      {lines.map((line, i) => {
+        if (!line) return null;
+
+        const lineDelay = cumulativeDelay;
+        cumulativeDelay += line.length * 0.03 + 0.3;
+
+        return (
           <p
             key={i}
             className={`
@@ -26,10 +35,10 @@ export function TextContent({ lines, visibleLines }) {
               ${i < visibleLines - 1 ? "mb-4" : ""}
             `}
           >
-            {line}
+            <TypewriterText text={line} delay={lineDelay} speed={0.03} />
           </p>
-        ) : null,
-      )}
+        );
+      })}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { SCREENS, SHADOW_KEY_MAP, PERSONA_KEY_MAP } from "./screenData";
 
 export function useStoryNavigation() {
@@ -10,9 +10,6 @@ export function useStoryNavigation() {
   const [showTap, setShowTap] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
   const [choiceReady, setChoiceReady] = useState(false);
-  const tapTimerRef = useRef(null);
-  const choiceTimerRef = useRef(null);
-  const endTimerRef = useRef(null);
 
   const screen = SCREENS[currentId];
   const isChoice = screen?.type === "choice";
@@ -26,33 +23,20 @@ export function useStoryNavigation() {
     setChoiceSelected(null);
     setShowChoices(false);
     setChoiceReady(false);
-    clearTimeout(tapTimerRef.current);
-    clearTimeout(choiceTimerRef.current);
-    clearTimeout(endTimerRef.current);
 
     if (isTitle) {
       setShowTap(true);
     } else if (isChoice) {
-      choiceTimerRef.current = setTimeout(() => {
-        setShowChoices(true);
-        setChoiceReady(true);
-      }, 1800);
+      setShowChoices(true);
+      setChoiceReady(true);
     } else if (isEnd && currentId === "end") {
-      endTimerRef.current = setTimeout(() => {
-        setCurrentId("title");
-        setPersonaKey(null);
-        setShadowKey(null);
-        setScreenKey((k) => k + 1);
-      }, 4000);
+      setCurrentId("title");
+      setPersonaKey(null);
+      setShadowKey(null);
+      setScreenKey((k) => k + 1);
     } else if (!isEnd) {
-      tapTimerRef.current = setTimeout(() => setShowTap(true), 600);
+      setShowTap(true);
     }
-
-    return () => {
-      clearTimeout(tapTimerRef.current);
-      clearTimeout(choiceTimerRef.current);
-      clearTimeout(endTimerRef.current);
-    };
   }, [currentId, screenKey, isChoice, isEnd, isTitle]);
 
   const navigate = useCallback((nextId) => {
@@ -77,7 +61,7 @@ export function useStoryNavigation() {
         setPersonaKey(PERSONA_KEY_MAP[choice.next]);
       if (choice.next in SHADOW_KEY_MAP)
         setShadowKey(SHADOW_KEY_MAP[choice.next]);
-      setTimeout(() => navigate(choice.next), 300);
+      navigate(choice.next);
     },
     [navigate],
   );

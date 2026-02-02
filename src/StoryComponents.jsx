@@ -129,3 +129,40 @@ export function BottomControls({
 export function TapOverlay({ onNext }) {
   return <div className="fixed inset-0 z-0 cursor-pointer" onClick={onNext} />;
 }
+
+export function ProgressIndicator({ currentId }) {
+  const getProgressStage = (id) => {
+    if (id === "title" || id === "entry") return 0;
+    if (id.startsWith("s01") || id.startsWith("s02") || id.startsWith("s03"))
+      return 1;
+    if (id.startsWith("s04") || id.startsWith("s05") || id.startsWith("s06"))
+      return 2;
+    if (id.startsWith("s07") || id.startsWith("s08") || id.startsWith("s09"))
+      return 3;
+    if (id.startsWith("s10") || id.startsWith("s11")) return 4;
+    if (id.startsWith("s12") || id.startsWith("s13") || id === "end") return 5;
+    return 0;
+  };
+
+  const totalStages = 6;
+  const currentStage = getProgressStage(currentId);
+
+  return (
+    <div className="fixed top-0 inset-x-0 pt-24 flex justify-center">
+      <div className="flex gap-2 items-center">
+        {Array.from({ length: totalStages }).map((_, i) => (
+          <div
+            key={i}
+            className={`h-0.5 rounded-full transition-all duration-300 ${
+              i === currentStage
+                ? "w-8 bg-stone-300"
+                : i < currentStage
+                  ? "w-4 bg-stone-600"
+                  : "w-4 bg-stone-800"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -5,6 +5,7 @@ import {
   ChoiceButtons,
   BottomControls,
   TapOverlay,
+  ProgressIndicator,
 } from "./StoryComponents";
 
 export default function App() {
@@ -29,6 +30,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-stone-950 relative">
+      {!isTitle && <ProgressIndicator currentId={currentId} />}
+
       <div className="min-h-screen flex flex-col items-center justify-center px-6 pointer-events-none">
         <div key={screenKey} className="w-full max-w-sm text-center">
           {isTitle && <TitleScreen />}

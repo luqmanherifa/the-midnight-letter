@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useStoryNavigation } from "./useStoryNavigation";
+import { TITLE_TRANSLATIONS } from "./translations";
 import {
   TitleScreen,
   TextContent,
@@ -11,7 +12,6 @@ import {
 
 export default function App() {
   const { theme } = useSelector((state) => state.story);
-
   const {
     screen,
     screenKey,
@@ -24,6 +24,7 @@ export default function App() {
     showChoices,
     choiceReady,
     currentId,
+    language,
     handleNext,
     handleChoice,
     toggleChoices,
@@ -34,12 +35,31 @@ export default function App() {
 
   useEffect(() => {
     setShowButtons(false);
-  }, [screenKey]);
+
+    if (isTitle) {
+      const titleText = TITLE_TRANSLATIONS[language || "id"].title;
+      const subtitleText = TITLE_TRANSLATIONS[language || "id"].subtitle;
+      const subtitleLines = subtitleText.split("\n");
+
+      let totalDelay = titleText.length * 0.05 + 0.5;
+      subtitleLines.forEach((line, index) => {
+        totalDelay += line.length * 0.03;
+        if (index < subtitleLines.length - 1) {
+          totalDelay += 0.2;
+        }
+      });
+      totalDelay += 0.8;
+
+      const timer = setTimeout(() => {
+        setShowButtons(true);
+      }, totalDelay * 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [screenKey, isTitle, language]);
 
   const handleTypewriterComplete = () => {
-    setTimeout(() => {
-      setShowButtons(true);
-    }, 800);
+    setShowButtons(true);
   };
 
   const themeClasses = {
@@ -63,7 +83,6 @@ export default function App() {
     >
       <div className="w-full max-w-[428px] min-h-screen relative">
         {!isTitle && <ProgressIndicator currentId={currentId} />}
-
         <div className="min-h-screen flex flex-col items-center justify-center px-6">
           <div
             key={screenKey}
@@ -77,17 +96,13 @@ export default function App() {
             }}
           >
             {isTitle && <TitleScreen />}
-
             {!isTitle && (
               <div className="w-full text-center">
                 <TextContent
                   lines={screen.lines}
                   visibleLines={visibleLines}
-                  onTypewriterComplete={
-                    isChoice ? handleTypewriterComplete : undefined
-                  }
+                  onTypewriterComplete={handleTypewriterComplete}
                 />
-
                 {isChoice && showChoices && (
                   <ChoiceButtons
                     choices={screen.choices}
@@ -100,9 +115,8 @@ export default function App() {
             )}
           </div>
         </div>
-
         <BottomControls
-          showTap={showTap}
+          showTap={showButtons}
           isChoice={isChoice}
           isEnd={isEnd}
           isTitle={isTitle}

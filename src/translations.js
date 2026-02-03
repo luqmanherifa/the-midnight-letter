@@ -2,7 +2,7 @@ export const UI_TRANSLATIONS = {
   id: {
     start: "mulai",
     continue: "lanjut",
-    closeLetter: "tap untuk menutup surat",
+    closeLetter: "tutup",
     returnAnytime: "Kamu boleh kembali kapan pun.",
     stayHere: "Aku tidak ke mana-mana.",
     theme: "Tema",
@@ -13,7 +13,7 @@ export const UI_TRANSLATIONS = {
   en: {
     start: "start",
     continue: "continue",
-    closeLetter: "tap to close the letter",
+    closeLetter: "close",
     returnAnytime: "You can return anytime.",
     stayHere: "I'm not going anywhere.",
     theme: "Theme",

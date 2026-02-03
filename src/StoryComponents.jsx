@@ -69,6 +69,10 @@ function SettingsPanel() {
 export function TitleScreen() {
   const { language, theme } = useSelector((state) => state.story);
   const title = TITLE_TRANSLATIONS[language];
+  const [completedTitle, setCompletedTitle] = useState(false);
+  const [completedSubtitle, setCompletedSubtitle] = useState(false);
+
+  const subtitleLines = title.subtitle.split("\n");
 
   return (
     <>
@@ -79,21 +83,52 @@ export function TitleScreen() {
             theme === "dark" ? "text-stone-200" : "text-stone-700"
           }`}
         >
-          {title.title}
+          <TypewriterText
+            text={title.title}
+            delay={0}
+            speed={0.05}
+            onComplete={() => setCompletedTitle(true)}
+          />
         </h1>
-        <p
-          className={`text-sm tracking-wide leading-relaxed whitespace-pre-line ${
+        <div
+          className={`text-sm tracking-wide leading-relaxed ${
             theme === "dark" ? "text-stone-400" : "text-stone-500"
           }`}
         >
-          {title.subtitle}
-        </p>
+          {subtitleLines.map((line, index) => {
+            let cumulativeDelay = title.title.length * 0.05 + 0.5;
+
+            for (let i = 0; i < index; i++) {
+              cumulativeDelay += subtitleLines[i].length * 0.03 + 0.2;
+            }
+
+            const isLastLine = index === subtitleLines.length - 1;
+
+            return (
+              <p
+                key={index}
+                className={index < subtitleLines.length - 1 ? "mb-1" : ""}
+              >
+                <TypewriterText
+                  text={line}
+                  delay={cumulativeDelay}
+                  speed={0.03}
+                  onComplete={() => {
+                    if (isLastLine) {
+                      setCompletedSubtitle(true);
+                    }
+                  }}
+                />
+              </p>
+            );
+          })}
+        </div>
 
         <div className="w-full pt-6 text-center">
           <p
-            className={`text-xs font-normal ${
-              theme === "dark" ? "text-stone-500" : "text-stone-400"
-            }`}
+            className={`text-xs font-normal transition-opacity duration-500 ${
+              completedSubtitle ? "opacity-100" : "opacity-0"
+            } ${theme === "dark" ? "text-stone-500" : "text-stone-400"}`}
           >
             © {new Date().getFullYear()}{" "}
             <a
@@ -229,31 +264,40 @@ export function BottomControls({
 
   return (
     <div className="absolute inset-x-0 bottom-0 pb-24 flex justify-center z-10">
-      {isTitle && (
-        <button
+      {isTitle && showTap && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded  ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded ${buttonClasses}`}
         >
           {t.start}
-        </button>
+        </motion.button>
       )}
 
       {showTap && !isChoice && !isEnd && !isTitle && (
-        <button
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded  ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded ${buttonClasses}`}
         >
           {t.continue}
-        </button>
+        </motion.button>
       )}
 
-      {isEnd && currentId === "s13" && (
-        <button
+      {isEnd && currentId === "s13" && showTap && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded  ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-2 rounded ${buttonClasses}`}
         >
           {t.closeLetter}
-        </button>
+        </motion.button>
       )}
     </div>
   );
@@ -280,7 +324,7 @@ export function ProgressIndicator({ currentId }) {
 
   return (
     <div className="absolute top-0 inset-x-0 pt-24 flex justify-center">
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-1.5 items-center">
         {Array.from({ length: totalStages }).map((_, i) => (
           <div
             key={i}

@@ -217,7 +217,7 @@ export default function MusicForm() {
                           ) : (
                             <>
                               <div
-                                className={`px-3 py-2 text-xs border-b ${
+                                className={`px-3 py-0 text-xs border-b ${
                                   theme === "dark"
                                     ? "text-stone-500 border-stone-700"
                                     : "text-stone-400 border-stone-300"

@@ -288,7 +288,7 @@ export function BottomControls({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-0 rounded ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-0 ${buttonClasses}`}
         >
           {t.start}
         </motion.button>
@@ -300,7 +300,7 @@ export function BottomControls({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-0 rounded ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-0 ${buttonClasses}`}
         >
           {t.continue}
         </motion.button>
@@ -312,7 +312,7 @@ export function BottomControls({
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           onClick={onNext}
-          className={`cursor-pointer text-sm transition-colors px-6 py-0 rounded ${buttonClasses}`}
+          className={`cursor-pointer text-sm transition-colors px-6 py-0 ${buttonClasses}`}
         >
           {t.closeLetter}
         </motion.button>

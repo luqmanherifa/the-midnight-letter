@@ -88,6 +88,28 @@ export function TitleScreen() {
         >
           {title.subtitle}
         </p>
+
+        <div className="w-full pt-6 text-center">
+          <p
+            className={`text-xs font-normal ${
+              theme === "dark" ? "text-stone-500" : "text-stone-400"
+            }`}
+          >
+            © {new Date().getFullYear()}{" "}
+            <a
+              href="https://github.com/luqmanherifa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`transition-colors ${
+                theme === "dark"
+                  ? "hover:text-stone-400"
+                  : "hover:text-stone-600"
+              }`}
+            >
+              Luqman Herifa
+            </a>
+          </p>
+        </div>
       </div>
     </>
   );

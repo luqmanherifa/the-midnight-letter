@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { TypewriterText } from "./TypewriterText";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme, toggleLanguage } from "../store/storySlice";
 import { UI_TRANSLATIONS, TITLE_TRANSLATIONS } from "../constant/translations";
@@ -10,77 +10,162 @@ function SettingsPanel() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { theme, language } = useSelector((state) => state.story);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isMusicOpen, setIsMusicOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
   const t = UI_TRANSLATIONS[language];
 
+  const musicUrl = "/wildflower.mp3";
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5;
+    }
+  }, []);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
-    <div className="absolute top-6 right-6 z-50 flex items-center">
-      <button
-        onClick={() => navigate("/distance")}
-        className="w-6 h-6 flex items-center justify-center rounded-full opacity-30 hover:opacity-60 transition-opacity"
-        aria-label="Distance"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 640 640"
-          width="14"
-          height="14"
-          className={theme === "dark" ? "fill-stone-300" : "fill-stone-700"}
-        >
-          <path d="M305 151.1L320 171.8L335 151.1C360 116.5 400.2 96 442.9 96C516.4 96 576 155.6 576 229.1L576 231.7C576 343.9 436.1 474.2 363.1 529.9C350.7 539.3 335.5 544 320 544C304.5 544 289.2 539.4 276.9 529.9C203.9 474.2 64 343.9 64 231.7L64 229.1C64 155.6 123.6 96 197.1 96C239.8 96 280 116.5 305 151.1z" />
-        </svg>
-      </button>
+    <>
+      <audio ref={audioRef} src={musicUrl} loop />
 
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-6 h-6 flex items-center justify-center rounded-full opacity-30 hover:opacity-60 transition-opacity"
-        aria-label="Settings"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 640 640"
-          width="14"
-          height="14"
-          className={theme === "dark" ? "fill-stone-300" : "fill-stone-700"}
+      <div className="absolute top-6 right-6 z-50 flex items-center gap-0">
+        <button
+          onClick={() => navigate("/distance")}
+          className="w-6 h-6 flex items-center justify-center rounded-full opacity-30 hover:opacity-60 transition-opacity"
+          aria-label="Distance"
         >
-          <path d="M259.1 73.5C262.1 58.7 275.2 48 290.4 48L350.2 48C365.4 48 378.5 58.7 381.5 73.5L396 143.5C410.1 149.5 423.3 157.2 435.3 166.3L503.1 143.8C517.5 139 533.3 145 540.9 158.2L570.8 210C578.4 223.2 575.7 239.8 564.3 249.9L511 297.3C511.9 304.7 512.3 312.3 512.3 320C512.3 327.7 511.8 335.3 511 342.7L564.4 390.2C575.8 400.3 578.4 417 570.9 430.1L541 481.9C533.4 495 517.6 501.1 503.2 496.3L435.4 473.8C423.3 482.9 410.1 490.5 396.1 496.6L381.7 566.5C378.6 581.4 365.5 592 350.4 592L290.6 592C275.4 592 262.3 581.3 259.3 566.5L244.9 496.6C230.8 490.6 217.7 482.9 205.6 473.8L137.5 496.3C123.1 501.1 107.3 495.1 99.7 481.9L69.8 430.1C62.2 416.9 64.9 400.3 76.3 390.2L129.7 342.7C128.8 335.3 128.4 327.7 128.4 320C128.4 312.3 128.9 304.7 129.7 297.3L76.3 249.8C64.9 239.7 62.3 223 69.8 209.9L99.7 158.1C107.3 144.9 123.1 138.9 137.5 143.7L205.3 166.2C217.4 157.1 230.6 149.5 244.6 143.4L259.1 73.5zM320.3 400C364.5 399.8 400.2 363.9 400 319.7C399.8 275.5 363.9 239.8 319.7 240C275.5 240.2 239.8 276.1 240 320.3C240.2 364.5 276.1 400.2 320.3 400z" />
-        </svg>
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 640 640"
+            width="14"
+            height="14"
+            className={theme === "dark" ? "fill-stone-300" : "fill-stone-700"}
+          >
+            <path d="M305 151.1L320 171.8L335 151.1C360 116.5 400.2 96 442.9 96C516.4 96 576 155.6 576 229.1L576 231.7C576 343.9 436.1 474.2 363.1 529.9C350.7 539.3 335.5 544 320 544C304.5 544 289.2 539.4 276.9 529.9C203.9 474.2 64 343.9 64 231.7L64 229.1C64 155.6 123.6 96 197.1 96C239.8 96 280 116.5 305 151.1z" />
+          </svg>
+        </button>
 
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-10 right-0 bg-stone-900/95 backdrop-blur-md rounded-lg p-4 shadow-xl border border-stone-700 min-w-[180px]"
+        <button
+          onClick={() => {
+            setIsMusicOpen(!isMusicOpen);
+            setIsSettingsOpen(false);
+          }}
+          className="w-6 h-6 flex items-center justify-center rounded-full opacity-30 hover:opacity-60 transition-opacity"
+          aria-label="Music"
         >
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-stone-400">{t.theme}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 640 640"
+            width="14"
+            height="14"
+            className={theme === "dark" ? "fill-stone-300" : "fill-stone-700"}
+          >
+            <path d="M532 71C539.6 77.1 544 86.3 544 96L544 400C544 444.2 501 480 448 480C395 480 352 444.2 352 400C352 355.8 395 320 448 320C459.2 320 470 321.6 480 324.6L480 207.9L256 257.7L256 464C256 508.2 213 544 160 544C107 544 64 508.2 64 464C64 419.8 107 384 160 384C171.2 384 182 385.6 192 388.6L192 160C192 145 202.4 132 217.1 128.8L505.1 64.8C514.6 62.7 524.5 65 532.1 71.1z" />
+          </svg>
+        </button>
+
+        <button
+          onClick={() => {
+            setIsSettingsOpen(!isSettingsOpen);
+            setIsMusicOpen(false);
+          }}
+          className="w-6 h-6 flex items-center justify-center rounded-full opacity-30 hover:opacity-60 transition-opacity"
+          aria-label="Settings"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 640 640"
+            width="14"
+            height="14"
+            className={theme === "dark" ? "fill-stone-300" : "fill-stone-700"}
+          >
+            <path d="M259.1 73.5C262.1 58.7 275.2 48 290.4 48L350.2 48C365.4 48 378.5 58.7 381.5 73.5L396 143.5C410.1 149.5 423.3 157.2 435.3 166.3L503.1 143.8C517.5 139 533.3 145 540.9 158.2L570.8 210C578.4 223.2 575.7 239.8 564.3 249.9L511 297.3C511.9 304.7 512.3 312.3 512.3 320C512.3 327.7 511.8 335.3 511 342.7L564.4 390.2C575.8 400.3 578.4 417 570.9 430.1L541 481.9C533.4 495 517.6 501.1 503.2 496.3L435.4 473.8C423.3 482.9 410.1 490.5 396.1 496.6L381.7 566.5C378.6 581.4 365.5 592 350.4 592L290.6 592C275.4 592 262.3 581.3 259.3 566.5L244.9 496.6C230.8 490.6 217.7 482.9 205.6 473.8L137.5 496.3C123.1 501.1 107.3 495.1 99.7 481.9L69.8 430.1C62.2 416.9 64.9 400.3 76.3 390.2L129.7 342.7C128.8 335.3 128.4 327.7 128.4 320C128.4 312.3 128.9 304.7 129.7 297.3L76.3 249.8C64.9 239.7 62.3 223 69.8 209.9L99.7 158.1C107.3 144.9 123.1 138.9 137.5 143.7L205.3 166.2C217.4 157.1 230.6 149.5 244.6 143.4L259.1 73.5zM320.3 400C364.5 399.8 400.2 363.9 400 319.7C399.8 275.5 363.9 239.8 319.7 240C275.5 240.2 239.8 276.1 240 320.3C240.2 364.5 276.1 400.2 320.3 400z" />
+          </svg>
+        </button>
+
+        {isMusicOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-10 right-0 bg-stone-900/95 backdrop-blur-md rounded-lg p-4 shadow-xl border border-stone-700 min-w-[200px]"
+          >
+            <div className="space-y-3">
+              <div className="text-center">
+                <p className="text-xs text-stone-400 mb-1">WILDFLOWER</p>
+                <p className="text-[10px] text-stone-500">Billie Eilish</p>
+              </div>
+
               <button
-                onClick={() => dispatch(toggleTheme())}
-                className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 transition-colors"
+                onClick={togglePlay}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded bg-stone-800 hover:bg-stone-700 transition-colors"
               >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 640"
+                  width="12"
+                  height="12"
+                  className="fill-stone-300"
+                >
+                  {isPlaying ? (
+                    <path d="M144 96C144 78.3 129.7 64 112 64C94.3 64 80 78.3 80 96L80 544C80 561.7 94.3 576 112 576C129.7 576 144 561.7 144 544L144 96zM368 96C368 78.3 353.7 64 336 64C318.3 64 304 78.3 304 96L304 544C304 561.7 318.3 576 336 576C353.7 576 368 561.7 368 544L368 96z" />
+                  ) : (
+                    <path d="M187.2 100.9C174.8 94.1 159.8 94.4 147.6 101.6C135.4 108.8 128 121.9 128 136L128 504C128 518.1 135.5 531.2 147.6 538.4C159.7 545.6 174.8 545.9 187.2 539.1L523.2 355.1C536 348.1 544 334.6 544 320C544 305.4 536 291.9 523.2 284.9L187.2 100.9z" />
+                  )}
+                </svg>
                 <span className="text-xs text-stone-300 font-medium">
-                  {t[theme]}
+                  {isPlaying ? "jeda" : "putar"}
                 </span>
               </button>
             </div>
+          </motion.div>
+        )}
 
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-stone-400">{t.language}</span>
-              <button
-                onClick={() => dispatch(toggleLanguage())}
-                className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 transition-colors"
-              >
-                <span className="text-xs text-stone-300 font-medium">
-                  {language}
-                </span>
-              </button>
+        {isSettingsOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="absolute top-10 right-0 bg-stone-900/95 backdrop-blur-md rounded-lg p-4 shadow-xl border border-stone-700 min-w-[180px]"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-stone-400">{t.theme}</span>
+                <button
+                  onClick={() => dispatch(toggleTheme())}
+                  className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 transition-colors"
+                >
+                  <span className="text-xs text-stone-300 font-medium">
+                    {t[theme]}
+                  </span>
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-stone-400">{t.language}</span>
+                <button
+                  onClick={() => dispatch(toggleLanguage())}
+                  className="px-3 py-1.5 rounded bg-stone-800 hover:bg-stone-700 transition-colors"
+                >
+                  <span className="text-xs text-stone-300 font-medium">
+                    {language}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
-        </motion.div>
-      )}
-    </div>
+          </motion.div>
+        )}
+      </div>
+    </>
   );
 }
 

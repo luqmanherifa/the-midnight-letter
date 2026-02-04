@@ -50,6 +50,7 @@ export const useMusicForm = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPreviewUrl, setCurrentPreviewUrl] = useState(null);
   const [loopCount, setLoopCount] = useState(0);
+  const [isFromSuggestion, setIsFromSuggestion] = useState(false);
   const debounceTimer = useRef(null);
   const textareaRef = useRef(null);
 
@@ -183,18 +184,21 @@ export const useMusicForm = () => {
         songTitle: suggestion.title,
         artist: suggestion.artist,
       });
+      setIsFromSuggestion(true);
     } else if (currentField === "songTitle") {
       setFormData({
         ...formData,
         songTitle: suggestion.title,
         artist: suggestion.artist,
       });
+      setIsFromSuggestion(true);
     } else if (currentField === "artist") {
       setFormData({
         ...formData,
         songTitle: suggestion.title,
         artist: suggestion.artist,
       });
+      setIsFromSuggestion(true);
     }
 
     if (suggestion.previewUrl) {
@@ -428,6 +432,7 @@ export const useMusicForm = () => {
     });
     setSuggestions([]);
     setShowSuggestions(false);
+    setIsFromSuggestion(false);
   };
 
   return {
@@ -443,6 +448,7 @@ export const useMusicForm = () => {
     audioPlayer,
     isPlaying,
     currentPreviewUrl,
+    isFromSuggestion,
 
     currentField,
     isLastStep,

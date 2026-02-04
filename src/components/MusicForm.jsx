@@ -19,6 +19,7 @@ export default function MusicForm() {
     currentField,
     isLastStep,
     canProceed,
+    isFromSuggestion,
     handleNext,
     handleBack,
     handleChange,
@@ -214,7 +215,18 @@ export default function MusicForm() {
                       onKeyPress={handleKeyPress}
                       maxLength={currentField === "feeling" ? 150 : undefined}
                       autoFocus
-                      className={`w-full px-4 py-3.5 rounded border transition-all duration-200 text-sm tracking-wide ${currentTheme.input} focus:outline-none`}
+                      disabled={
+                        isFromSuggestion &&
+                        (currentField === "songTitle" ||
+                          currentField === "artist")
+                      }
+                      className={`w-full px-4 py-3.5 rounded border transition-all duration-200 text-sm tracking-wide ${currentTheme.input} focus:outline-none ${
+                        isFromSuggestion &&
+                        (currentField === "songTitle" ||
+                          currentField === "artist")
+                          ? "opacity-60 cursor-not-allowed"
+                          : ""
+                      }`}
                       placeholder={STEPS[currentStep].placeholder}
                     />
                   )}

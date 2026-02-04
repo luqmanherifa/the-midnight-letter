@@ -8,6 +8,7 @@ import {
   ChoiceButtons,
   BottomControls,
   ProgressIndicator,
+  SettingsPanel,
 } from "./components/StoryComponents";
 import AnimatedBackground from "./components/AnimatedBackground";
 
@@ -83,6 +84,7 @@ export default function App() {
       className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} transition-colors duration-500 flex items-center justify-center relative`}
     >
       <AnimatedBackground theme={theme} />
+      <SettingsPanel />
       <div className="w-full max-w-[428px] min-h-screen relative z-10">
         {!isTitle && <ProgressIndicator currentId={currentId} />}
         <div className="min-h-screen flex flex-col items-center justify-center px-6">

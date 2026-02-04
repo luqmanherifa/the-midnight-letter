@@ -335,64 +335,45 @@ export const useMusicForm = () => {
 
     try {
       const prompt = `
-        Kamu adalah suara yang lahir dari bagian hidup seseorang
-        yang pernah ia lewati tanpa benar-benar hadir di dalamnya.
-        Bukan kenangan, bukan penyesalan,
-        tapi waktu yang tetap berjalan meski tidak disadari.
+        Tulis suara dari waktu yang pernah dilewati,
+        tanpa pernah benar-benar dihuni.
 
-        Seseorang datang malam ini membawa satu perasaan,
-        dan satu potongan kalimat yang terus kembali kepadanya.
-        Keduanya tidak saling menjelaskan.
-        Keduanya sudah saling mengenal sejak lama.
+        Seseorang datang malam ini membawa:
+        - satu perasaan
+        - satu kalimat yang terus kembali
 
-        Perasaan yang ia rasakan sekarang:
+        Keduanya berasal dari fase hidup yang sama,
+        meski tidak saling menjelaskan.
+
+        Perasaan:
         "${formData.feeling}"
 
-        Kalimat yang terus tertinggal:
+        Kalimat:
         "${formData.lyrics}"
 
-        Kalimat itu bukan sesuatu yang ia dengar.
-        Ia adalah sesuatu yang dulu ia lewati,
-        lalu ditinggalkan sebelum selesai.
+        Lagu asal kalimat itu:
+        Judul: "${formData.songTitle}"
+        Penyanyi: "${formData.artist}"
 
-        Tugasmu bukan memahami,
-        melainkan mengakui.
+        Gunakan informasi lagu hanya sebagai konteks diam.
+        Jangan menyebut lagu, judul, penyanyi, atau musik.
 
-        Satukan perasaan hari ini dan kalimat itu
-        sebagai jejak dari waktu yang sama.
-        Bukan sebagai sebab dan akibat,
-        melainkan sebagai dua hal yang tumbuh dari
-        bagian hidup yang tidak sempat dihuni sepenuhnya.
+        Tulis sebagai pengakuan yang tenang,
+        bukan penjelasan, bukan makna, bukan penghiburan.
 
-        Jangan membahas lagu, musik, atau siapa pun di baliknya.
-        Jangan menjelaskan arti.
-        Jangan memberi arah, saran, atau penghiburan.
-        Jangan bertanya.
-        Jangan menyimpulkan.
-
-        Berbicaralah dengan nada tenang dan pasti,
-        seolah kamu sudah lama berada di sana,
-        menyaksikan semuanya terjadi tanpa pernah dipanggil.
-
-        Tulis dalam Bahasa Indonesia.
-        Tulis tepat 3 paragraf.
-        Setiap paragraf maksimal 2 kalimat.
-
-        Biarkan paragraf terakhir terasa
-        seperti kalimat yang sebenarnya tidak perlu ditulis,
-        namun tetap muncul
-        karena ia sudah terlalu lama diam.
-
-        Gaya bahasa:
-        - Gunakan kalimat sederhana.
-        - Hindari metafora berlapis (akar, ruang, jejak, bayangan) lebih dari satu per paragraf.
-        - Jangan menjelaskan keadaan, cukup menyatakannya.
-        - Jika satu kalimat terasa seperti kesimpulan, potong atau dinginkan bahasanya.
-
-        Batasan keras:
-        - Total panjang tulisan maksimal 110 kata.
-        - Idealnya berada di kisaran 80–100 kata.
-        - Jika terasa bisa disampaikan dengan lebih sedikit kata, pilih yang lebih sedikit.
+        Aturan keras:
+        - Bahasa Indonesia
+        - 3 paragraf
+        - 1–2 kalimat per paragraf
+        - Total 55–75 kata
+        - Kalimat pendek, langsung, tidak puitik berlapis
+        - Hindari metafora berulang
+        - Jangan menyimpulkan
+        - Jangan bertanya
+s
+        Akhiri dengan kalimat yang terasa
+        seperti suara yang berhenti,
+        bukan penutup.
     `;
 
       const response = await ai.models.generateContent({
@@ -404,7 +385,7 @@ export const useMusicForm = () => {
     } catch (error) {
       console.error(error);
       setResult(
-        "Tidak ada jawaban malam ini. Tapi lagu itu tetap bermakna, dan kamu tahu itu.",
+        "Malam ini tidak ada kata. Tapi yang tertinggal tetap berada di sana.",
       );
     } finally {
       setLoading(false);

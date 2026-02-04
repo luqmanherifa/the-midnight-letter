@@ -26,11 +26,13 @@ export const UI_TRANSLATIONS = {
 export const TITLE_TRANSLATIONS = {
   id: {
     title: "Surat Tengah Malam",
-    subtitle: "Surat untuk bagian dirimu\nyang terus berjalan di kegelapan",
+    subtitle:
+      "Surat untuk bagian dirimu\nyang terus berjalan di balik bayangan",
   },
   en: {
     title: "The Midnight Letter",
-    subtitle: "A letter to the part of you\nthat keeps walking in the darkness",
+    subtitle:
+      "A letter to the part of you\nthat keeps walking behind the shadows",
   },
 };
 

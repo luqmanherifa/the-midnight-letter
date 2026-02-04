@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useMusicForm, STEPS } from "../hooks/useMusicForm";
+import AnimatedBackground from "./AnimatedBackground";
 
 export default function MusicForm() {
   const {
@@ -47,9 +48,10 @@ export default function MusicForm() {
 
   return (
     <div
-      className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} transition-colors duration-500 flex items-center justify-center`}
+      className={`min-h-screen ${currentTheme.bg} ${currentTheme.text} transition-colors duration-500 flex items-center justify-center relative`}
     >
-      <div className="w-full max-w-[428px] min-h-screen relative">
+      <AnimatedBackground theme={theme} />
+      <div className="w-full max-w-[428px] min-h-screen relative z-10">
         <div className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
           <div className="w-full max-w-sm">
             <div className="text-center mb-12">
@@ -58,7 +60,7 @@ export default function MusicForm() {
                   theme === "dark" ? "text-stone-200" : "text-stone-700"
                 }`}
               >
-                JARAK
+                Jarak
               </h1>
               <p
                 className={`text-sm tracking-wide leading-relaxed px-4 ${
@@ -72,7 +74,7 @@ export default function MusicForm() {
                   theme === "dark" ? "text-stone-400" : "text-stone-500"
                 }`}
               >
-                dan lirik yang terngiang.
+                dan lirik yang tertinggal.
               </p>
             </div>
 

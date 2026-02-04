@@ -14,7 +14,7 @@ export const STEPS = [
   },
   {
     id: "lyrics",
-    label: "Penggalan lirik yang terngiang",
+    label: "Penggalan lirik yang tertinggal",
     placeholder: "Baris yang terus kembali di kepala",
     type: "auto-expand",
   },
@@ -204,13 +204,13 @@ export const useMusicForm = () => {
         Kamu tidak memberi saran, tidak menenangkan, dan tidak membantu menyelesaikan apa pun.
 
         Seseorang datang membawa satu perasaan saat ini,
-        dan satu potongan lirik yang terus terngiang di kepalanya.
+        dan satu potongan lirik yang terus tertinggal di kepalanya.
         Lagu hanya menjadi asal dari lirik itu, bukan topik utama.
 
         Perasaan yang ia rasakan saat ini:
         "${formData.feeling}"
 
-        Potongan lirik yang terngiang:
+        Potongan lirik yang tertinggal:
         "${formData.lyrics}"
 
         Lirik ini berasal dari lagu:
@@ -224,7 +224,7 @@ export const useMusicForm = () => {
         - Jangan memberi solusi atau arah.
 
         Tugasmu:
-        Paksa hubungan antara perasaan saat ini dan potongan lirik yang terngiang,
+        Paksa hubungan antara perasaan saat ini dan potongan lirik yang tertinggal,
         bukan sebagai penjelasan, tapi sebagai keberadaan yang saling menempel.
         Tunjukkan keterkaitan itu dengan yakin, meskipun tidak nyaman dan tidak diminta.
 

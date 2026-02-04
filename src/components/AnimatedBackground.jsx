@@ -5,30 +5,30 @@ export default function AnimatedBackground({ theme = "dark" }) {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      {[...Array(4)].map((_, i) => (
+      {[...Array(3)].map((_, i) => (
         <motion.div
           key={`orb-${i}`}
           className={`absolute rounded-full ${
-            isDark ? "bg-stone-700/40" : "bg-stone-400/40"
+            isDark ? "bg-stone-600/50" : "bg-stone-400/50"
           }`}
           style={{
-            width: `${150 + i * 80}px`,
-            height: `${150 + i * 80}px`,
-            left: `${i * 25 - 10}%`,
-            top: `${i * 25 + 10}%`,
-            filter: "blur(60px)",
+            width: `${120 + i * 50}px`,
+            height: `${120 + i * 50}px`,
+            left: `${i * 35 + 5}%`,
+            top: `${i * 30 + 15}%`,
+            filter: "blur(70px)",
           }}
           animate={{
-            x: [0, 50, -30, 0],
-            y: [0, -50, 30, 0],
-            scale: [1, 1.2, 0.9, 1],
-            opacity: [0.4, 0.7, 0.5, 0.4],
+            x: [0, 40, -20, 0],
+            y: [0, -40, 20, 0],
+            scale: [1, 1.15, 0.95, 1],
+            opacity: [0.4, 0.6, 0.45, 0.4],
           }}
           transition={{
-            duration: 20 + i * 3,
+            duration: 25 + i * 5,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: i * 2,
+            delay: i * 3,
           }}
         />
       ))}
